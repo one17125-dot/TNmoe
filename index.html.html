@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#1E3A5F" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="အတိုးဆင့်" />
+  <title>အတိုးဆင့် — အတိုးပေါ် အတိုးဆင့် တွက်ချက်မှု Application</title>
+
+  <!-- Dynamic Favicon, Apple Touch Icon & Manifest Links -->
+  <link id="dynamicFavicon" rel="icon" type="image/png" />
+  <link id="dynamicAppleIcon" rel="apple-touch-icon" />
+  <link id="dynamicManifest" rel="manifest" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Chart.js for Interactive Growth & Comparison Chart -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Fonts: Noto Sans Myanmar & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Myanmar:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Noto Sans Myanmar"', 'Inter', 'sans-serif'],
+            mono: ['Inter', '"Noto Sans Myanmar"', 'monospace']
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Noto Sans Myanmar', 'Inter', sans-serif;
+      background-color: #F8FAFC;
+      color: #0F172A;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .tabular-nums {
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Custom subtle scrollbars */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #F1F5F9;
+      border-radius: 999px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #CBD5E1;
+      border-radius: 999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94A3B8;
+    }
+
+    @media print {
+      .no-print {
+        display: none !important;
+      }
+      body {
+        background: #FFFFFF !important;
+      }
+      .print-clean {
+        box-shadow: none !important;
+        border: 1px solid #E2E8F0 !important;
+      }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+  <!-- Top Header with Custom "အတိုးဆင့်" Logo & Quick Actions -->
+  <header class="bg-gradient-to-r from-[#1E3A5F] via-[#173E56] to-[#134E4A] text-white shadow-lg border-b border-white/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-5">
+      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+
+        <!-- Brand & Custom SVG Logo -->
+        <div class="flex items-center gap-3.5 sm:gap-4">
+          <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl shadow-xl border-2 border-amber-300/70 bg-[#1E3A5F] overflow-hidden shrink-0 flex items-center justify-center">
+            <!-- Custom SVG Logo: "အတိုးဆင့်" with upward growth bars & golden arrow -->
+            <svg viewBox="0 0 512 512" class="w-full h-full" role="img" aria-label="အတိုးဆင့် Logo" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="logoBgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#1E3A5F" />
+                  <stop offset="58%" stop-color="#163252" />
+                  <stop offset="100%" stop-color="#134E4A" />
+                </linearGradient>
+                <linearGradient id="logoBarEmerald" x1="0%" y1="100%" x2="0%" y2="0%">
+                  <stop offset="0%" stop-color="#0D9488" />
+                  <stop offset="100%" stop-color="#34D399" />
+                </linearGradient>
+                <linearGradient id="logoBarGold" x1="0%" y1="100%" x2="0%" y2="0%">
+                  <stop offset="0%" stop-color="#D97706" />
+                  <stop offset="100%" stop-color="#FDE047" />
+                </linearGradient>
+                <linearGradient id="logoArrowGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#F59E0B" />
+                  <stop offset="100%" stop-color="#FEF08A" />
+                </linearGradient>
+              </defs>
+
+              <!-- Background Squircle -->
+              <rect width="512" height="512" rx="108" fill="url(#logoBgGrad)" />
+              <rect x="20" y="20" width="472" height="472" rx="90" fill="none" stroke="#FBBF24" stroke-opacity="0.4" stroke-width="6" />
+
+              <!-- Subtle Baseline -->
+              <line x1="76" y1="364" x2="436" y2="364" stroke="#99F6E4" stroke-opacity="0.25" stroke-width="4" stroke-linecap="round" />
+
+              <!-- Upward Growth Bars -->
+              <rect x="94" y="272" width="54" height="92" rx="12" fill="url(#logoBarEmerald)" opacity="0.85" />
+              <rect x="172" y="226" width="54" height="138" rx="12" fill="url(#logoBarEmerald)" opacity="0.92" />
+              <rect x="250" y="172" width="54" height="192" rx="12" fill="url(#logoBarEmerald)" />
+              <rect x="328" y="114" width="56" height="250" rx="12" fill="url(#logoBarGold)" />
+
+              <!-- Golden Rising Compound Arrow -->
+              <path d="M106 234 Q212 184 356 84" fill="none" stroke="url(#logoArrowGrad)" stroke-width="18" stroke-linecap="round" />
+              <polygon points="382,66 324,74 358,118" fill="#FDE047" />
+
+              <!-- Bottom Label Pill -->
+              <rect x="76" y="384" width="360" height="78" rx="22" fill="#0F172A" fill-opacity="0.62" stroke="#FBBF24" stroke-opacity="0.55" stroke-width="3" />
+              <text x="256" y="434" text-anchor="middle" fill="#FFFFFF" font-family="'Noto Sans Myanmar', sans-serif" font-size="40" font-weight="800">အတိုးဆင့်</text>
+            </svg>
+          </div>
+
+          <div>
+            <div class="inline-flex items-center gap-2 px-3 py-0.5 rounded-full bg-white/10 border border-white/15 text-teal-200 text-xs font-medium mb-1">
+              <span>ကိုယ်ပိုင် အတိုးတွက်စက် App</span>
+            </div>
+            <h1 class="text-xl sm:text-2xl lg:text-3xl font-extrabold tracking-tight leading-snug">
+              အတိုးဆင့် — အတိုးပေါ် အတိုးဆင့် တွက်ချက်မှု
+            </h1>
+            <p class="text-xs sm:text-sm text-teal-100/90 mt-0.5">
+              အရင်း၊ လစဉ်အတိုးနှုန်း (၇%)၊ ကာလနှင့် လအလိုက် ပေးပြီးအတိုးများကို သိန်း/ကျပ် နှစ်မျိုးလုံးဖြင့် တိကျစွာ တွက်ချက်ပါ
+            </p>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-wrap items-center gap-2.5 no-print">
+          <button type="button" onclick="downloadLogoPng()" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 active:bg-amber-500 text-slate-950 font-bold text-xs sm:text-sm shadow-md transition cursor-pointer">
+            <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+            </svg>
+            <span>Logo (PNG) သိမ်းမည်</span>
+          </button>
+
+          <button type="button" onclick="openAppInfoModal()" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 active:bg-emerald-600 text-slate-950 font-bold text-xs sm:text-sm shadow-md transition cursor-pointer">
+            <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+            </svg>
+            <span>App Icon & ဖုန်းသုံးနည်း</span>
+          </button>
+
+          <button type="button" onclick="window.print()" class="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-white/15 hover:bg-white/25 text-white font-semibold text-xs sm:text-sm border border-white/20 transition cursor-pointer">
+            <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
+            </svg>
+            <span>Print / PDF</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Workspace -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+
+    <!-- Top Parameter Control Panel -->
+    <section class="bg-white rounded-2xl shadow-sm border border-slate-200/90 p-4 sm:p-6 print-clean no-print">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-4 mb-5 border-b border-slate-100">
+        <div>
+          <h2 class="text-base sm:text-lg font-bold text-slate-900">တွက်ချက်မှု သတ်မှတ်ချက်များ</h2>
+          <p class="text-xs text-slate-500 mt-0.5">အသင့်သုံးနမူနာကို ရွေးချယ်ပါ သို့မဟုတ် အရင်း၊ အတိုးနှုန်းနှင့် လအရေအတွက်ကို စိတ်ကြိုက်ရိုက်ထည့်ပါ</p>
+        </div>
+
+        <!-- Quick Preset Buttons -->
+        <div class="flex flex-wrap items-center gap-2">
+          <button type="button" onclick="applyScenario('150_2m')" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 hover:bg-[#1E3A5F] hover:text-white text-slate-800 border border-slate-200 transition cursor-pointer">
+            သိန်း ၁၅၀ (၂ လပေး / ၄ လဆင့်)
+          </button>
+          <button type="button" onclick="applyScenario('200_1m')" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 hover:bg-[#1E3A5F] hover:text-white text-slate-800 border border-slate-200 transition cursor-pointer">
+            သိန်း ၂၀၀ (၁ လပေး / ၅ လဆင့်)
+          </button>
+          <button type="button" onclick="applyScenario('500_partial')" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 hover:bg-[#1E3A5F] hover:text-white text-slate-800 border border-slate-200 transition cursor-pointer">
+            သိန်း ၅၀၀ (၁ လအပြည့် + ၂ လ ၁၀ သိန်း)
+          </button>
+        </div>
+      </div>
+
+      <!-- Core Inputs Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- Principal Input (Lakhs) -->
+        <div class="bg-slate-50 rounded-xl p-3.5 border border-slate-200/80">
+          <label for="principalInput" class="block text-xs font-bold text-slate-700 mb-1.5">
+            မူလအရင်းငွေ (သိန်း)
+          </label>
+          <input
+            id="principalInput"
+            type="number"
+            min="0"
+            step="any"
+            value="150"
+            oninput="handleCoreInputChange()"
+            class="w-full px-3.5 py-2 rounded-lg bg-white border border-slate-300 focus:border-[#1E3A5F] focus:ring-2 focus:ring-[#1E3A5F]/20 outline-none text-sm font-bold text-slate-900 tabular-nums"
+          />
+          <div id="principalKyatHint" class="text-[11px] font-semibold text-teal-700 mt-1.5 tabular-nums">
+            ကျပ် ၁၅,၀၀၀,၀၀၀
+          </div>
+        </div>
+
+        <!-- Monthly Interest Rate (%) -->
+        <div class="bg-slate-50 rounded-xl p-3.5 border border-slate-200/80">
+          <label for="rateInput" class="block text-xs font-bold text-slate-700 mb-1.5">
+            လစဉ် အတိုးနှုန်း (% / ကျပ်တိုး)
+          </label>
+          <div class="relative">
+            <input
+              id="rateInput"
+              type="number"
+              min="0"
+              max="200"
+              step="any"
+              value="7"
+              oninput="handleCoreInputChange()"
+              class="w-full px-3.5 py-2 pr-9 rounded-lg bg-white border border-slate-300 focus:border-[#1E3A5F] focus:ring-2 focus:ring-[#1E3A5F]/20 outline-none text-sm font-bold text-slate-900 tabular-nums"
+            />
+            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-500">%</span>
+          </div>
+          <div class="text-[11px] text-slate-500 mt-1.5">
+            ပုံမှန်သတ်မှတ်ချက်: ၇% (၇ ကျပ်တိုး)
+          </div>
+        </div>
+
+        <!-- Contract Months -->
+        <div class="bg-slate-50 rounded-xl p-3.5 border border-slate-200/80">
+          <label for="monthsInput" class="block text-xs font-bold text-slate-700 mb-1.5">
+            စာချုပ်ကာလ (လအရေအတွက်)
+          </label>
+          <input
+            id="monthsInput"
+            type="number"
+            min="1"
+            max="60"
+            step="1"
+            value="6"
+            oninput="handleMonthsChange()"
+            class="w-full px-3.5 py-2 rounded-lg bg-white border border-slate-300 focus:border-[#1E3A5F] focus:ring-2 focus:ring-[#1E3A5F]/20 outline-none text-sm font-bold text-slate-900 tabular-nums"
+          />
+          <div class="text-[11px] text-slate-500 mt-1.5">
+            ၁ လ မှ ၆၀ လ အထိ တွက်ချက်နိုင်သည်
+          </div>
+        </div>
+
+        <!-- Calculation Mode Toggle -->
+        <div class="bg-slate-50 rounded-xl p-3.5 border border-slate-200/80 flex flex-col justify-between">
+          <div class="text-xs font-bold text-slate-700 mb-1.5">
+            အတိုးတွက်စနစ်
+          </div>
+          <div class="grid grid-cols-2 gap-1.5 bg-slate-200/80 p-1 rounded-xl">
+            <button
+              id="modeCompoundBtn"
+              type="button"
+              onclick="setMode('compound')"
+              class="py-2 px-2 rounded-lg text-xs font-bold bg-[#1E3A5F] text-white shadow-sm transition cursor-pointer"
+            >
+              အတိုးဆင့်
+            </button>
+            <button
+              id="modeSimpleBtn"
+              type="button"
+              onclick="setMode('simple')"
+              class="py-2 px-2 rounded-lg text-xs font-bold text-slate-700 hover:bg-white/60 transition cursor-pointer"
+            >
+              သာမန်အတိုး
+            </button>
+          </div>
+          <div id="modeDescription" class="text-[11px] text-slate-600 mt-1.5">
+            မရသည့်အတိုးကို အရင်းထဲပေါင်းပြီး ဆင့်တိုးတွက်သည်
+          </div>
+        </div>
+      </div>
+
+      <!-- Editable Per-Month Paid Interest Bar -->
+      <div class="mt-5 pt-5 border-t border-slate-100">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
+          <div>
+            <h3 class="text-sm font-bold text-slate-800">လအလိုက် လက်ခံရရှိပြီး (ပေးသွင်းပြီး) အတိုးငွေ ပြင်ဆင်ရန်</h3>
+            <p class="text-xs text-slate-500">လတစ်ခုစီအတွက် ရရှိပြီးသည့် အတိုးပမာဏကို သိန်းဂဏန်း သို့မဟုတ် ကျပ်ဂဏန်းဖြင့် တိုက်ရိုက်ပြင်ဆင်နိုင်ပါသည်</p>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <button type="button" onclick="fillAllFullPaid()" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-teal-50 hover:bg-teal-100 text-teal-800 border border-teal-200 transition cursor-pointer">
+              အားလုံး အပြည့်ပေးပြီး
+            </button>
+            <button type="button" onclick="clearAllPaid()" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-200 transition cursor-pointer">
+              အားလုံး မရသေး (၀)
+            </button>
+          </div>
+        </div>
+
+        <div id="monthlyPaidInputsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          <!-- Populated dynamically by JavaScript -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Summary KPI Cards -->
+    <section class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 print-clean">
+      <!-- Card 1: Principal -->
+      <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200/90">
+        <div class="text-xs font-bold text-slate-500">မူလအရင်းငွေ</div>
+        <div id="kpiPrincipalLakhs" class="text-2xl font-extrabold text-[#1E3A5F] mt-1.5 tabular-nums">၁၅၀.၀၀၀၀ သိန်း</div>
+        <div id="kpiPrincipalKyat" class="text-xs font-semibold text-slate-600 mt-1 tabular-nums">ကျပ် ၁၅,၀၀၀,၀၀၀</div>
+      </div>
+
+      <!-- Card 2: Total Paid Interest -->
+      <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200/90">
+        <div class="text-xs font-bold text-emerald-700">လက်ခံရရှိပြီး အတိုးစုစုပေါင်း</div>
+        <div id="kpiPaidLakhs" class="text-2xl font-extrabold text-emerald-700 mt-1.5 tabular-nums">၂၁.၀၀၀၀ သိန်း</div>
+        <div id="kpiPaidKyat" class="text-xs font-semibold text-emerald-800/80 mt-1 tabular-nums">ကျပ် ၂,၁၀၀,၀၀၀</div>
+      </div>
+
+      <!-- Card 3: Total Unpaid Interest -->
+      <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200/90">
+        <div class="text-xs font-bold text-amber-700">မရသေးသည့် အတိုးစုစုပေါင်း</div>
+        <div id="kpiUnpaidLakhs" class="text-2xl font-extrabold text-amber-700 mt-1.5 tabular-nums">၄၆.၆၁၉၄ သိန်း</div>
+        <div id="kpiUnpaidKyat" class="text-xs font-semibold text-amber-800/80 mt-1 tabular-nums">ကျပ် ၄,၆၆၁,၉၄၀</div>
+      </div>
+
+      <!-- Card 4: Final Receivable (Principal + Unpaid Interest) -->
+      <div class="bg-gradient-to-br from-[#1E3A5F] to-[#134E4A] text-white rounded-2xl p-5 shadow-md">
+        <div class="text-xs font-bold text-teal-200">ကာလပြည့် ပြန်ရမည့်ငွေ (အရင်း + မရသေးအတိုး)</div>
+        <div id="kpiFinalLakhs" class="text-2xl font-extrabold text-amber-300 mt-1.5 tabular-nums">၁၉၆.၆၁၉၄ သိန်း</div>
+        <div id="kpiFinalKyat" class="text-xs font-semibold text-teal-100 mt-1 tabular-nums">ကျပ် ၁၉,၆၆၁,၉၄၀</div>
+      </div>
+    </section>
+
+    <!-- Live Comparison: Compound vs Simple Interest -->
+    <section class="bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200/90 print-clean">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
+        <div>
+          <h2 class="text-base sm:text-lg font-bold text-slate-900">အတိုးပေါ် အတိုးဆင့် နှင့် သာမန်အတိုး နှိုင်းယှဉ်ချက်</h2>
+          <p class="text-xs text-slate-500 mt-0.5">လက်ရှိ ထည့်သွင်းထားသော ပေးသွင်းပြီးအတိုး စာရင်းအတိုင်း စနစ်နှစ်ခု၏ ကွာခြားချက်ကို နှိုင်းယှဉ်ပြထားပါသည်</p>
+        </div>
+        <span id="diffBadge" class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-900 border border-amber-200 tabular-nums">
+          အတိုးဆင့် ပိုများငွေ: +၄.၆၁၉၄ သိန်း
+        </span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="rounded-xl p-4 bg-slate-50 border border-slate-200">
+          <div class="text-xs font-bold text-[#1E3A5F]">အတိုးပေါ် အတိုးဆင့် (ပြန်ရမည့်စုစုပေါင်း)</div>
+          <div id="compCompoundLakhs" class="text-xl font-extrabold text-[#1E3A5F] mt-1 tabular-nums">၁၉၆.၆၁၉၄ သိန်း</div>
+          <div id="compCompoundKyat" class="text-xs font-semibold text-slate-600 mt-0.5 tabular-nums">ကျပ် ၁၉,၆၆၁,၉၄၀</div>
+        </div>
+
+        <div class="rounded-xl p-4 bg-slate-50 border border-slate-200">
+          <div class="text-xs font-bold text-teal-800">သာမန်အတိုး Simple Interest (ပြန်ရမည့်စုစုပေါင်း)</div>
+          <div id="compSimpleLakhs" class="text-xl font-extrabold text-teal-800 mt-1 tabular-nums">၁၉၂.၀၀၀၀ သိန်း</div>
+          <div id="compSimpleKyat" class="text-xs font-semibold text-slate-600 mt-0.5 tabular-nums">ကျပ် ၁၉,၂၀၀,၀၀၀</div>
+        </div>
+
+        <div class="rounded-xl p-4 bg-amber-50/70 border border-amber-200">
+          <div class="text-xs font-bold text-amber-900">ကွာခြားချက် (Compound − Simple)</div>
+          <div id="compDiffLakhs" class="text-xl font-extrabold text-amber-900 mt-1 tabular-nums">၄.၆၁၉၄ သိန်း</div>
+          <div id="compDiffKyat" class="text-xs font-semibold text-amber-800 mt-0.5 tabular-nums">ကျပ် ၄၆၁,၉၄၀</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Visual Growth Chart -->
+    <section class="bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200/90 print-clean">
+      <div class="mb-4">
+        <h2 class="text-base sm:text-lg font-bold text-slate-900">လစဉ် စုစုပေါင်းငွေ တိုးပွားမှု ပြဇယား (သိန်း)</h2>
+        <p class="text-xs text-slate-500 mt-0.5">လကုန်တွင် မရသေးသည့် အရင်းနှင့် အတိုးဆင့် ပေါင်းစုငွေကို လအလိုက် နှိုင်းယှဉ်ကြည့်ရှုနိုင်ပါသည်</p>
+      </div>
+      <div class="relative w-full h-72 sm:h-80">
+        <canvas id="growthChartCanvas"></canvas>
+      </div>
+    </section>
+
+    <!-- Monthly Detailed Calculation Table -->
+    <section class="bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200/90 print-clean">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
+        <div>
+          <h2 class="text-base sm:text-lg font-bold text-slate-900">လစဉ် တွက်ချက်မှု အသေးစိတ်ဇယား</h2>
+          <p class="text-xs text-slate-500 mt-0.5">အတိုးတွက် အရင်းခံ၊ ထိုလအတွက် အတိုး (သိန်း/ကျပ်)၊ ပေးသွင်းပြီး၊ မရသေးအတိုးနှင့် လကုန်စုစုပေါင်း (သိန်း/ကျပ်)</p>
+        </div>
+        <div class="text-xs font-semibold text-slate-500">
+          မှတ်ချက်: ၁ သိန်း = ၁၀၀,၀၀၀ ကျပ်
+        </div>
+      </div>
+
+      <div class="overflow-x-auto rounded-xl border border-slate-200">
+        <table class="min-w-full divide-y divide-slate-200 text-xs sm:text-sm">
+          <thead class="bg-[#1E3A5F] text-white">
+            <tr>
+              <th scope="col" class="px-3.5 py-3 text-left font-bold whitespace-nowrap">ကာလ</th>
+              <th scope="col" class="px-3.5 py-3 text-right font-bold whitespace-nowrap">အတိုးတွက် အရင်းခံ (သိန်း)</th>
+              <th scope="col" class="px-3.5 py-3 text-right font-bold whitespace-nowrap">ထိုလအတွက် အတိုး (သိန်း)</th>
+              <th scope="col" class="px-3.5 py-3 text-right font-bold whitespace-nowrap">ထိုလအတွက် အတိုး (ကျပ်)</th>
+              <th scope="col" class="px-3.5 py-3 text-right font-bold whitespace-nowrap">ပေးသွင်းပြီး (သိန်း)</th>
+              <th scope="col" class="px-3.5 py-3 text-right font-bold whitespace-nowrap">မရသေးအတိုး (သိန်း)</th>
+              <th scope="col" class="px-3.5 py-3 text-right font-bold whitespace-nowrap">လကုန် စုစုပေါင်း (သိန်း)</th>
+              <th scope="col" class="px-3.5 py-3 text-right font-bold whitespace-nowrap">လကုန် စုစုပေါင်း (ကျပ်)</th>
+            </tr>
+          </thead>
+          <tbody id="scheduleTableBody" class="divide-y divide-slate-100 bg-white">
+            <!-- Populated dynamically by JavaScript -->
+          </tbody>
+          <tfoot id="scheduleTableFoot" class="bg-slate-100 font-extrabold text-slate-900 border-t-2 border-slate-300">
+            <!-- Populated dynamically by JavaScript -->
+          </tfoot>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t border-slate-200 py-4 px-4 sm:px-6 lg:px-8 mt-8">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500">
+      <div>
+        <strong class="text-slate-800">အတိုးဆင့်</strong> — အတိုးပေါ် အတိုးဆင့် တွက်ချက်မှု Application
+      </div>
+      <div>
+        စာချုပ်ပါ သဘောတူညီချက်များအလိုက် လိုအပ်သလို စိတ်ကြိုက်တွက်ချက်နိုင်ပါသည်။
+      </div>
+    </div>
+  </footer>
+
+  <!-- App Icon & Phone Usage Modal -->
+  <div id="appInfoModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-950/65 backdrop-blur-xs p-4 no-print">
+    <div class="bg-white rounded-3xl max-w-md w-full shadow-2xl border border-slate-200 overflow-hidden">
+      <div class="bg-gradient-to-r from-[#1E3A5F] to-[#134E4A] px-5 py-4 text-white flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <img id="modalLogoImg" alt="အတိုးဆင့် Logo" class="w-12 h-12 rounded-2xl border-2 border-amber-300 bg-[#1E3A5F] shadow-md" />
+          <div>
+            <h3 class="text-base font-bold">အတိုးဆင့် App Logo & အသုံးပြုနည်း</h3>
+            <p class="text-xs text-teal-200">ကိုယ်ပိုင် Logo သိမ်းဆည်းရန်နှင့် ဖုန်းတွင် အသုံးပြုရန်</p>
+          </div>
+        </div>
+        <button type="button" onclick="closeAppInfoModal()" class="p-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white transition cursor-pointer" aria-label="ပိတ်မည်">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+
+      <div class="p-5 space-y-4 text-xs sm:text-sm text-slate-700">
+        <div id="nativeInstallBox" class="hidden">
+          <button type="button" onclick="triggerInstallPrompt()" class="w-full py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold shadow-md transition cursor-pointer">
+            ဖုန်းတွင် App အဖြစ် Install လုပ်မည်
+          </button>
+        </div>
+
+        <div class="bg-slate-50 rounded-2xl p-4 border border-slate-200 space-y-2">
+          <div class="font-bold text-slate-900">အသုံးပြုပုံ အကျဉ်း</div>
+          <ul class="list-disc list-inside space-y-1.5 text-xs text-slate-700 leading-relaxed">
+            <li>မူလအရင်း၊ လစဉ်အတိုးနှုန်း (၇%) နှင့် လအရေအတွက်ကို ထည့်သွင်းပါ။</li>
+            <li>လတစ်ခုစီအတွက် ရရှိပြီးသည့် အတိုးကို <strong>သိန်း</strong> သို့မဟုတ် <strong>ကျပ်</strong> ကွက်တွင် ရိုက်ထည့်နိုင်ပါသည်။</li>
+            <li>အပေါ်ဘက်ရှိ <strong>Logo (PNG) သိမ်းမည်</strong> ခလုတ်မှတစ်ဆင့် <strong>အတိုးဆင့်</strong> Logo ပုံကို PNG အဖြစ် သိမ်းဆည်းနိုင်ပါသည်။</li>
+          </ul>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-2.5">
+          <button type="button" onclick="downloadLogoPng()" class="flex-1 py-2.5 px-4 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs transition cursor-pointer">
+            Logo (PNG) ဒေါင်းလုဒ်ဆွဲမည်
+          </button>
+          <button type="button" onclick="closeAppInfoModal()" class="py-2.5 px-5 rounded-xl bg-slate-800 hover:bg-slate-900 text-white font-semibold text-xs transition cursor-pointer">
+            ပိတ်မည်
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Banner -->
+  <div id="toastBanner" class="fixed bottom-5 right-5 z-50 hidden max-w-sm bg-slate-900 text-white text-xs sm:text-sm font-semibold px-4 py-3 rounded-2xl shadow-xl border border-white/15 no-print">
+    <span id="toastMessage"></span>
+  </div>
+
+  <script>
+    const KYAT_PER_LAKH = 100000;
+
+    // Application state
+    const appState = {
+      principalLakhs: 150,
+      monthlyRatePercent: 7,
+      months: 6,
+      mode: 'compound', // 'compound' | 'simple'
+      paidLakhsByMonth: [10.5, 10.5, 0, 0, 0, 0]
+    };
+
+    let growthChart = null;
+    let cachedLogo512Url = '';
+    let deferredInstallEvent = null;
+
+    // Myanmar digit formatter for display labels
+    const myanmarDigits = ['၀', '၁', '၂', '၃', '၄', '၅', '၆', '၇', '၈', '၉'];
+    function toMyanmarNumberString(numStr) {
+      return String(numStr).replace(/[0-9]/g, (d) => myanmarDigits[Number(d)]);
+    }
+
+    function formatLakhs(value, decimals = 4) {
+      const safeVal = Number.isFinite(value) ? value : 0;
+      const fixed = safeVal.toFixed(decimals);
+      const [intPart, decPart] = fixed.split('.');
+      const withCommas = Number(intPart).toLocaleString('en-US');
+      const formatted = decPart ? `${withCommas}.${decPart}` : withCommas;
+      return `${toMyanmarNumberString(formatted)} သိန်း`;
+    }
+
+    function formatKyat(lakhsValue) {
+      const safeLakhs = Number.isFinite(lakhsValue) ? lakhsValue : 0;
+      const kyat = Math.round(safeLakhs * KYAT_PER_LAKH);
+      return `ကျပ် ${toMyanmarNumberString(kyat.toLocaleString('en-US'))}`;
+    }
+
+    function showToast(message) {
+      const banner = document.getElementById('toastBanner');
+      const msgEl = document.getElementById('toastMessage');
+      if (!banner || !msgEl) return;
+      msgEl.textContent = message;
+      banner.classList.remove('hidden');
+      clearTimeout(showToast._timer);
+      showToast._timer = setTimeout(() => {
+        banner.classList.add('hidden');
+      }, 3000);
+    }
+
+    // Core schedule calculation supporting both Compound and Simple interest
+    function calculateSchedule(principal, ratePercent, monthCount, paidArray, mode) {
+      const p = Math.max(0, Number(principal) || 0);
+      const r = Math.max(0, Number(ratePercent) || 0) / 100;
+      const n = Math.max(1, Math.min(60, Math.floor(Number(monthCount) || 1)));
+
+      let currentPrincipalBase = p;
+      let accumulatedUnpaidInterest = 0;
+      let totalInterestGenerated = 0;
+      let totalPaidInterest = 0;
+
+      const rows = [];
+
+      for (let m = 1; m <= n; m++) {
+        const paid = Math.max(0, Number(paidArray[m - 1]) || 0);
+        const baseForInterest = mode === 'compound' ? currentPrincipalBase : p;
+        const monthlyInterest = baseForInterest * r;
+        const unpaidThisMonth = monthlyInterest - paid;
+
+        totalInterestGenerated += monthlyInterest;
+        totalPaidInterest += paid;
+
+        if (mode === 'compound') {
+          currentPrincipalBase = currentPrincipalBase + unpaidThisMonth;
+          accumulatedUnpaidInterest = currentPrincipalBase - p;
+        } else {
+          accumulatedUnpaidInterest += unpaidThisMonth;
+          currentPrincipalBase = p + accumulatedUnpaidInterest;
+        }
+
+        rows.push({
+          month: m,
+          label: `${toMyanmarNumberString(m)} လမြောက်`,
+          baseForInterest,
+          monthlyInterest,
+          paid,
+          unpaidThisMonth,
+          endingTotal: mode === 'compound' ? currentPrincipalBase : (p + accumulatedUnpaidInterest)
+        });
+      }
+
+      const finalReceivable = rows.length > 0 ? rows[rows.length - 1].endingTotal : p;
+      const totalUnpaid = finalReceivable - p;
+
+      return {
+        rows,
+        totalInterestGenerated,
+        totalPaidInterest,
+        totalUnpaid,
+        finalReceivable
+      };
+    }
+
+    // Sync monthly paid array length when months change
+    function syncPaidArrayLength(newMonths) {
+      const count = Math.max(1, Math.min(60, Math.floor(Number(newMonths) || 1)));
+      const defaultFullInterest = (Math.max(0, appState.principalLakhs) * Math.max(0, appState.monthlyRatePercent)) / 100;
+
+      while (appState.paidLakhsByMonth.length < count) {
+        appState.paidLakhsByMonth.push(0);
+      }
+      if (appState.paidLakhsByMonth.length > count) {
+        appState.paidLakhsByMonth = appState.paidLakhsByMonth.slice(0, count);
+      }
+      appState.months = count;
+
+      // Ensure no negative values
+      appState.paidLakhsByMonth = appState.paidLakhsByMonth.map(v => Math.max(0, Number(v) || 0));
+      return defaultFullInterest;
+    }
+
+    // Render per-month editable paid interest cards (Lakhs & Kyats synced)
+    function renderMonthlyPaidInputs() {
+      const container = document.getElementById('monthlyPaidInputsGrid');
+      if (!container) return;
+
+      const rateDecimal = Math.max(0, appState.monthlyRatePercent) / 100;
+      const schedulePreview = calculateSchedule(
+        appState.principalLakhs,
+        appState.monthlyRatePercent,
+        appState.months,
+        appState.paidLakhsByMonth,
+        appState.mode
+      );
+
+      container.innerHTML = '';
+
+      for (let i = 0; i < appState.months; i++) {
+        const paidLakhs = Math.max(0, Number(appState.paidLakhsByMonth[i]) || 0);
+        const paidKyat = Math.round(paidLakhs * KYAT_PER_LAKH);
+        const expectedInterest = schedulePreview.rows[i]
+          ? schedulePreview.rows[i].monthlyInterest
+          : appState.principalLakhs * rateDecimal;
+
+        const card = document.createElement('div');
+        card.className = 'rounded-xl border border-slate-200 bg-slate-50/80 p-3 flex flex-col gap-2';
+
+        const headerRow = document.createElement('div');
+        headerRow.className = 'flex items-center justify-between gap-2';
+
+        const titleSpan = document.createElement('span');
+        titleSpan.className = 'text-xs font-bold text-slate-800';
+        titleSpan.textContent = `${toMyanmarNumberString(i + 1)} လမြောက် ပေးပြီးအတိုး`;
+
+        const quickFullBtn = document.createElement('button');
+        quickFullBtn.type = 'button';
+        quickFullBtn.className = 'text-[11px] font-bold text-teal-700 hover:text-teal-900 underline cursor-pointer';
+        quickFullBtn.textContent = `အပြည့်ထည့် (${expectedInterest.toFixed(2)} သိန်း)`;
+        quickFullBtn.onclick = () => {
+          const latestCalc = calculateSchedule(
+            appState.principalLakhs,
+            appState.monthlyRatePercent,
+            appState.months,
+            appState.paidLakhsByMonth,
+            appState.mode
+          );
+          const targetVal = latestCalc.rows[i] ? Number(latestCalc.rows[i].monthlyInterest.toFixed(4)) : 0;
+          appState.paidLakhsByMonth[i] = targetVal;
+          updateAllUI();
+        };
+
+        headerRow.appendChild(titleSpan);
+        headerRow.appendChild(quickFullBtn);
+
+        const inputsRow = document.createElement('div');
+        inputsRow.className = 'grid grid-cols-2 gap-2';
+
+        // Lakhs input
+        const lakhsWrapper = document.createElement('div');
+        const lakhsLabel = document.createElement('label');
+        lakhsLabel.className = 'block text-[10px] font-semibold text-slate-500 mb-0.5';
+        lakhsLabel.textContent = 'သိန်း';
+        const lakhsInput = document.createElement('input');
+        lakhsInput.type = 'number';
+        lakhsInput.min = '0';
+        lakhsInput.step = 'any';
+        lakhsInput.value = String(paidLakhs);
+        lakhsInput.className = 'w-full px-2.5 py-1.5 rounded-lg bg-white border border-slate-300 focus:border-[#1E3A5F] outline-none text-xs font-bold text-slate-900 tabular-nums';
+        lakhsInput.addEventListener('input', (e) => {
+          const val = Math.max(0, Number(e.target.value) || 0);
+          appState.paidLakhsByMonth[i] = val;
+          updateDashboardOnly();
+          if (kyatInput !== document.activeElement) {
+            kyatInput.value = String(Math.round(val * KYAT_PER_LAKH));
+          }
+        });
+        lakhsWrapper.appendChild(lakhsLabel);
+        lakhsWrapper.appendChild(lakhsInput);
+
+        // Kyats input
+        const kyatWrapper = document.createElement('div');
+        const kyatLabel = document.createElement('label');
+        kyatLabel.className = 'block text-[10px] font-semibold text-slate-500 mb-0.5';
+        kyatLabel.textContent = 'ကျပ်';
+        const kyatInput = document.createElement('input');
+        kyatInput.type = 'number';
+        kyatInput.min = '0';
+        kyatInput.step = '1000';
+        kyatInput.value = String(paidKyat);
+        kyatInput.className = 'w-full px-2.5 py-1.5 rounded-lg bg-white border border-slate-300 focus:border-[#1E3A5F] outline-none text-xs font-bold text-slate-900 tabular-nums';
+        kyatInput.addEventListener('input', (e) => {
+          const kyatVal = Math.max(0, Number(e.target.value) || 0);
+          const lakhsVal = kyatVal / KYAT_PER_LAKH;
+          appState.paidLakhsByMonth[i] = lakhsVal;
+          updateDashboardOnly();
+          if (lakhsInput !== document.activeElement) {
+            lakhsInput.value = String(Number(lakhsVal.toFixed(4)));
+          }
+        });
+        kyatWrapper.appendChild(kyatLabel);
+        kyatWrapper.appendChild(kyatInput);
+
+        inputsRow.appendChild(lakhsWrapper);
+        inputsRow.appendChild(kyatWrapper);
+
+        card.appendChild(headerRow);
+        card.appendChild(inputsRow);
+        container.appendChild(card);
+      }
+    }
+
+    // Update KPI cards, comparison panel, schedule table & chart
+    function updateDashboardOnly() {
+      const p = Math.max(0, Number(appState.principalLakhs) || 0);
+      const r = Math.max(0, Number(appState.monthlyRatePercent) || 0);
+      const n = appState.months;
+
+      const principalHintEl = document.getElementById('principalKyatHint');
+      if (principalHintEl) {
+        principalHintEl.textContent = formatKyat(p);
+      }
+
+      const activeResult = calculateSchedule(p, r, n, appState.paidLakhsByMonth, appState.mode);
+      const compoundResult = calculateSchedule(p, r, n, appState.paidLakhsByMonth, 'compound');
+      const simpleResult = calculateSchedule(p, r, n, appState.paidLakhsByMonth, 'simple');
+
+      // KPIs
+      document.getElementById('kpiPrincipalLakhs').textContent = formatLakhs(p);
+      document.getElementById('kpiPrincipalKyat').textContent = formatKyat(p);
+
+      document.getElementById('kpiPaidLakhs').textContent = formatLakhs(activeResult.totalPaidInterest);
+      document.getElementById('kpiPaidKyat').textContent = formatKyat(activeResult.totalPaidInterest);
+
+      document.getElementById('kpiUnpaidLakhs').textContent = formatLakhs(activeResult.totalUnpaid);
+      document.getElementById('kpiUnpaidKyat').textContent = formatKyat(activeResult.totalUnpaid);
+
+      document.getElementById('kpiFinalLakhs').textContent = formatLakhs(activeResult.finalReceivable);
+      document.getElementById('kpiFinalKyat').textContent = formatKyat(activeResult.finalReceivable);
+
+      // Comparison block
+      const diffLakhs = compoundResult.finalReceivable - simpleResult.finalReceivable;
+      document.getElementById('compCompoundLakhs').textContent = formatLakhs(compoundResult.finalReceivable);
+      document.getElementById('compCompoundKyat').textContent = formatKyat(compoundResult.finalReceivable);
+
+      document.getElementById('compSimpleLakhs').textContent = formatLakhs(simpleResult.finalReceivable);
+      document.getElementById('compSimpleKyat').textContent = formatKyat(simpleResult.finalReceivable);
+
+      document.getElementById('compDiffLakhs').textContent = formatLakhs(diffLakhs);
+      document.getElementById('compDiffKyat').textContent = formatKyat(diffLakhs);
+
+      const diffBadge = document.getElementById('diffBadge');
+      if (diffBadge) {
+        const sign = diffLakhs >= 0 ? '+' : '';
+        diffBadge.textContent = `အတိုးဆင့် ကွာခြားငွေ: ${sign}${toMyanmarNumberString(diffLakhs.toFixed(4))} သိန်း`;
+      }
+
+      // Schedule Table Body
+      const tbody = document.getElementById('scheduleTableBody');
+      const tfoot = document.getElementById('scheduleTableFoot');
+      if (tbody && tfoot) {
+        tbody.innerHTML = '';
+
+        activeResult.rows.forEach((row) => {
+          const tr = document.createElement('tr');
+          tr.className = 'hover:bg-slate-50/90 transition-colors';
+
+          const cells = [
+            { text: row.label, align: 'text-left font-bold text-slate-800' },
+            { text: formatLakhs(row.baseForInterest), align: 'text-right tabular-nums text-slate-700' },
+            { text: formatLakhs(row.monthlyInterest), align: 'text-right tabular-nums font-semibold text-teal-800' },
+            { text: formatKyat(row.monthlyInterest), align: 'text-right tabular-nums text-slate-700' },
+            { text: formatLakhs(row.paid), align: 'text-right tabular-nums text-emerald-700 font-semibold' },
+            { text: formatLakhs(row.unpaidThisMonth), align: 'text-right tabular-nums text-amber-800 font-semibold' },
+            { text: formatLakhs(row.endingTotal), align: 'text-right tabular-nums font-bold text-[#1E3A5F]' },
+            { text: formatKyat(row.endingTotal), align: 'text-right tabular-nums font-bold text-slate-900' }
+          ];
+
+          cells.forEach((c) => {
+            const td = document.createElement('td');
+            td.className = `px-3.5 py-2.5 whitespace-nowrap ${c.align}`;
+            td.textContent = c.text;
+            tr.appendChild(td);
+          });
+
+          tbody.appendChild(tr);
+        });
+
+        // Footer totals row
+        tfoot.innerHTML = '';
+        const footTr = document.createElement('tr');
+        const footCells = [
+          { text: 'စုစုပေါင်း', align: 'text-left' },
+          { text: formatLakhs(p), align: 'text-right tabular-nums' },
+          { text: formatLakhs(activeResult.totalInterestGenerated), align: 'text-right tabular-nums' },
+          { text: formatKyat(activeResult.totalInterestGenerated), align: 'text-right tabular-nums' },
+          { text: formatLakhs(activeResult.totalPaidInterest), align: 'text-right tabular-nums text-emerald-800' },
+          { text: formatLakhs(activeResult.totalUnpaid), align: 'text-right tabular-nums text-amber-900' },
+          { text: formatLakhs(activeResult.finalReceivable), align: 'text-right tabular-nums text-[#1E3A5F]' },
+          { text: formatKyat(activeResult.finalReceivable), align: 'text-right tabular-nums' }
+        ];
+
+        footCells.forEach((fc) => {
+          const td = document.createElement('td');
+          td.className = `px-3.5 py-3 whitespace-nowrap ${fc.align}`;
+          td.textContent = fc.text;
+          footTr.appendChild(td);
+        });
+        tfoot.appendChild(footTr);
+      }
+
+      // Update Chart
+      updateChart(compoundResult.rows, simpleResult.rows);
+    }
+
+    function updateAllUI() {
+      document.getElementById('principalInput').value = String(appState.principalLakhs);
+      document.getElementById('rateInput').value = String(appState.monthlyRatePercent);
+      document.getElementById('monthsInput').value = String(appState.months);
+
+      const compoundBtn = document.getElementById('modeCompoundBtn');
+      const simpleBtn = document.getElementById('modeSimpleBtn');
+      const modeDesc = document.getElementById('modeDescription');
+
+      if (appState.mode === 'compound') {
+        compoundBtn.className = 'py-2 px-2 rounded-lg text-xs font-bold bg-[#1E3A5F] text-white shadow-sm transition cursor-pointer';
+        simpleBtn.className = 'py-2 px-2 rounded-lg text-xs font-bold text-slate-700 hover:bg-white/60 transition cursor-pointer';
+        modeDesc.textContent = 'မရသည့်အတိုးကို အရင်းထဲပေါင်းပြီး ဆင့်တိုးတွက်သည်';
+      } else {
+        simpleBtn.className = 'py-2 px-2 rounded-lg text-xs font-bold bg-[#134E4A] text-white shadow-sm transition cursor-pointer';
+        compoundBtn.className = 'py-2 px-2 rounded-lg text-xs font-bold text-slate-700 hover:bg-white/60 transition cursor-pointer';
+        modeDesc.textContent = 'မူလအရင်းပေါ်တွင်သာ သာမန်အတိုး တွက်ချက်သည်';
+      }
+
+      renderMonthlyPaidInputs();
+      updateDashboardOnly();
+    }
+
+    function handleCoreInputChange() {
+      const pVal = Math.max(0, Number(document.getElementById('principalInput').value) || 0);
+      const rVal = Math.max(0, Number(document.getElementById('rateInput').value) || 0);
+      appState.principalLakhs = pVal;
+      appState.monthlyRatePercent = rVal;
+      renderMonthlyPaidInputs();
+      updateDashboardOnly();
+    }
+
+    function handleMonthsChange() {
+      const rawMonths = Number(document.getElementById('monthsInput').value);
+      if (!Number.isFinite(rawMonths) || rawMonths < 1) return;
+      syncPaidArrayLength(rawMonths);
+      updateAllUI();
+    }
+
+    function setMode(mode) {
+      appState.mode = mode === 'simple' ? 'simple' : 'compound';
+      updateAllUI();
+    }
+
+    function fillAllFullPaid() {
+      const calc = calculateSchedule(
+        appState.principalLakhs,
+        appState.monthlyRatePercent,
+        appState.months,
+        appState.paidLakhsByMonth,
+        appState.mode
+      );
+      appState.paidLakhsByMonth = calc.rows.map((r) => Number(r.monthlyInterest.toFixed(4)));
+      updateAllUI();
+      showToast('လအားလုံးအတွက် အတိုးအပြည့် ပေးသွင်းပြီးအဖြစ် ထည့်သွင်းပြီးပါပြီ။');
+    }
+
+    function clearAllPaid() {
+      appState.paidLakhsByMonth = Array.from({ length: appState.months }, () => 0);
+      updateAllUI();
+      showToast('လအားလုံးကို မရသေးသည့် အတိုး (၀) အဖြစ် ပြောင်းလဲပြီးပါပြီ။');
+    }
+
+    // Preset scenarios requested by user
+    function applyScenario(scenarioKey) {
+      if (scenarioKey === '150_2m') {
+        appState.principalLakhs = 150;
+        appState.monthlyRatePercent = 7;
+        appState.months = 6;
+        appState.mode = 'compound';
+        appState.paidLakhsByMonth = [10.5, 10.5, 0, 0, 0, 0];
+      } else if (scenarioKey === '200_1m') {
+        appState.principalLakhs = 200;
+        appState.monthlyRatePercent = 7;
+        appState.months = 6;
+        appState.mode = 'compound';
+        appState.paidLakhsByMonth = [14, 0, 0, 0, 0, 0];
+      } else if (scenarioKey === '500_partial') {
+        appState.principalLakhs = 500;
+        appState.monthlyRatePercent = 7;
+        appState.months = 6;
+        appState.mode = 'compound';
+        appState.paidLakhsByMonth = [35, 10, 0, 0, 0, 0];
+      }
+      updateAllUI();
+    }
+
+    // Chart.js visual comparison
+    function updateChart(compoundRows, simpleRows) {
+      const canvas = document.getElementById('growthChartCanvas');
+      if (!canvas || typeof Chart === 'undefined') return;
+
+      const labels = compoundRows.map((r) => `${toMyanmarNumberString(r.month)} လ`);
+      const compoundData = compoundRows.map((r) => Number(r.endingTotal.toFixed(4)));
+      const simpleData = simpleRows.map((r) => Number(r.endingTotal.toFixed(4)));
+
+      if (!growthChart) {
+        growthChart = new Chart(canvas.getContext('2d'), {
+          type: 'line',
+          data: {
+            labels,
+            datasets: [
+              {
+                label: 'အတိုးပေါ် အတိုးဆင့် (သိန်း)',
+                data: compoundData,
+                borderColor: '#1E3A5F',
+                backgroundColor: 'rgba(30, 58, 95, 0.14)',
+                borderWidth: 3,
+                pointRadius: 4,
+                pointBackgroundColor: '#F59E0B',
+                fill: true,
+                tension: 0.25
+              },
+              {
+                label: 'သာမန်အတိုး Simple (သိန်း)',
+                data: simpleData,
+                borderColor: '#0D9488',
+                backgroundColor: 'rgba(13, 148, 136, 0.05)',
+                borderWidth: 2.5,
+                borderDash: [6, 5],
+                pointRadius: 3.5,
+                pointBackgroundColor: '#0D9488',
+                fill: false,
+                tension: 0.25
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: {
+              mode: 'index',
+              intersect: false
+            },
+            plugins: {
+              legend: {
+                position: 'top',
+                labels: {
+                  font: {
+                    family: '"Noto Sans Myanmar", Inter, sans-serif',
+                    weight: 'bold'
+                  }
+                }
+              }
+            },
+            scales: {
+              x: {
+                ticks: {
+                  font: {
+                    family: '"Noto Sans Myanmar", Inter, sans-serif'
+                  }
+                }
+              },
+              y: {
+                beginAtZero: false,
+                ticks: {
+                  font: {
+                    family: 'Inter, sans-serif'
+                  }
+                }
+              }
+            }
+          }
+        });
+      } else {
+        growthChart.data.labels = labels;
+        growthChart.data.datasets[0].data = compoundData;
+        growthChart.data.datasets[1].data = simpleData;
+        growthChart.update();
+      }
+    }
+
+    // Generate high-res PNG Logo ("အတိုးဆင့်") via HTML5 Canvas
+    function createLogoPngDataUrl(size = 512) {
+      const canvas = document.createElement('canvas');
+      canvas.width = size;
+      canvas.height = size;
+      const ctx = canvas.getContext('2d');
+      const s = size / 512;
+
+      const r = 108 * s;
+      ctx.beginPath();
+      ctx.moveTo(r, 0);
+      ctx.lineTo(size - r, 0);
+      ctx.quadraticCurveTo(size, 0, size, r);
+      ctx.lineTo(size, size - r);
+      ctx.quadraticCurveTo(size, size, size - r, size);
+      ctx.lineTo(r, size);
+      ctx.quadraticCurveTo(0, size, 0, size - r);
+      ctx.lineTo(0, r);
+      ctx.quadraticCurveTo(0, 0, r, 0);
+      ctx.closePath();
+
+      const bgGrad = ctx.createLinearGradient(0, 0, size, size);
+      bgGrad.addColorStop(0, '#1E3A5F');
+      bgGrad.addColorStop(0.58, '#163252');
+      bgGrad.addColorStop(1, '#134E4A');
+      ctx.fillStyle = bgGrad;
+      ctx.fill();
+
+      ctx.strokeStyle = 'rgba(251, 191, 36, 0.45)';
+      ctx.lineWidth = 6 * s;
+      ctx.stroke();
+
+      // Baseline
+      ctx.strokeStyle = 'rgba(153, 246, 228, 0.25)';
+      ctx.lineWidth = 4 * s;
+      ctx.beginPath();
+      ctx.moveTo(76 * s, 364 * s);
+      ctx.lineTo(436 * s, 364 * s);
+      ctx.stroke();
+
+      const drawRoundedBar = (x, y, w, h, c1, c2) => {
+        const bx = x * s;
+        const by = y * s;
+        const bw = w * s;
+        const bh = h * s;
+        const br = 12 * s;
+        const grad = ctx.createLinearGradient(bx, by + bh, bx, by);
+        grad.addColorStop(0, c1);
+        grad.addColorStop(1, c2);
+        ctx.fillStyle = grad;
+
+        ctx.beginPath();
+        ctx.moveTo(bx + br, by);
+        ctx.lineTo(bx + bw - br, by);
+        ctx.quadraticCurveTo(bx + bw, by, bx + bw, by + br);
+        ctx.lineTo(bx + bw, by + bh - br);
+        ctx.quadraticCurveTo(bx + bw, by + bh, bx + bw - br, by + bh);
+        ctx.lineTo(bx + br, by + bh);
+        ctx.quadraticCurveTo(bx, by + bh, bx, by + bh - br);
+        ctx.lineTo(bx, by + br);
+        ctx.quadraticCurveTo(bx, by, bx + br, by);
+        ctx.closePath();
+        ctx.fill();
+      };
+
+      drawRoundedBar(94, 272, 54, 92, '#0D9488', '#34D399');
+      drawRoundedBar(172, 226, 54, 138, '#0D9488', '#34D399');
+      drawRoundedBar(250, 172, 54, 192, '#0D9488', '#6EE7B7');
+      drawRoundedBar(328, 114, 56, 250, '#D97706', '#FDE047');
+
+      // Golden arrow curve
+      ctx.strokeStyle = '#FDE047';
+      ctx.lineWidth = 18 * s;
+      ctx.lineCap = 'round';
+      ctx.beginPath();
+      ctx.moveTo(106 * s, 234 * s);
+      ctx.quadraticCurveTo(212 * s, 184 * s, 356 * s, 84 * s);
+      ctx.stroke();
+
+      // Arrowhead
+      ctx.fillStyle = '#FDE047';
+      ctx.beginPath();
+      ctx.moveTo(382 * s, 66 * s);
+      ctx.lineTo(324 * s, 74 * s);
+      ctx.lineTo(358 * s, 118 * s);
+      ctx.closePath();
+      ctx.fill();
+
+      // Bottom pill
+      const px = 76 * s;
+      const py = 384 * s;
+      const pw = 360 * s;
+      const ph = 78 * s;
+      const pr = 22 * s;
+      ctx.fillStyle = 'rgba(15, 23, 42, 0.62)';
+      ctx.beginPath();
+      ctx.moveTo(px + pr, py);
+      ctx.lineTo(px + pw - pr, py);
+      ctx.quadraticCurveTo(px + pw, py, px + pw, py + pr);
+      ctx.lineTo(px + pw, py + ph - pr);
+      ctx.quadraticCurveTo(px + pw, py + ph, px + pw - pr, py + ph);
+      ctx.lineTo(px + pr, py + ph);
+      ctx.quadraticCurveTo(px, py + ph, px, py + ph - pr);
+      ctx.lineTo(px, py + pr);
+      ctx.quadraticCurveTo(px, py, px + pr, py);
+      ctx.closePath();
+      ctx.fill();
+
+      ctx.strokeStyle = 'rgba(251, 191, 36, 0.55)';
+      ctx.lineWidth = 3 * s;
+      ctx.stroke();
+
+      // Label text "အတိုးဆင့်"
+      ctx.fillStyle = '#FFFFFF';
+      ctx.font = `800 ${Math.round(40 * s)}px "Noto Sans Myanmar", sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('အတိုးဆင့်', 256 * s, 425 * s);
+
+      return canvas.toDataURL('image/png');
+    }
+
+    function downloadLogoPng() {
+      try {
+        if (!cachedLogo512Url) {
+          cachedLogo512Url = createLogoPngDataUrl(512);
+        }
+        const link = document.createElement('a');
+        link.href = cachedLogo512Url;
+        link.download = 'atoe_sint_logo.png';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        showToast('အတိုးဆင့် Logo (PNG) ကို ဒေါင်းလုဒ်ဆွဲပြီးပါပြီ။');
+      } catch (err) {
+        showToast('Logo ပုံသိမ်းဆည်းရာတွင် အဆင်မပြေမှုရှိနေပါသည်။');
+      }
+    }
+
+    function initIconsAndManifest() {
+      try {
+        const icon192 = createLogoPngDataUrl(192);
+        const icon512 = createLogoPngDataUrl(512);
+        cachedLogo512Url = icon512;
+
+        const favicon = document.getElementById('dynamicFavicon');
+        const appleIcon = document.getElementById('dynamicAppleIcon');
+        const modalLogoImg = document.getElementById('modalLogoImg');
+        if (favicon) favicon.href = icon192;
+        if (appleIcon) appleIcon.href = icon512;
+        if (modalLogoImg) modalLogoImg.src = icon512;
+
+        const manifestData = {
+          name: 'အတိုးဆင့် — အတိုးပေါ် အတိုးဆင့် တွက်ချက်မှု',
+          short_name: 'အတိုးဆင့်',
+          description: 'အပေါင်စာချုပ်နှင့် ငွေချေးစာချုပ် အတိုးပေါ် အတိုးဆင့် တွက်ချက်မှု Application',
+          start_url: '.',
+          display: 'standalone',
+          orientation: 'portrait-primary',
+          theme_color: '#1E3A5F',
+          background_color: '#F8FAFC',
+          icons: [
+            { src: icon192, sizes: '192x192', type: 'image/png', purpose: 'any maskable' },
+            { src: icon512, sizes: '512x512', type: 'image/png', purpose: 'any maskable' }
+          ]
+        };
+
+        const manifestBlob = new Blob([JSON.stringify(manifestData)], { type: 'application/manifest+json' });
+        const manifestLink = document.getElementById('dynamicManifest');
+        if (manifestLink) {
+          manifestLink.href = URL.createObjectURL(manifestBlob);
+        }
+      } catch (err) {
+        console.warn('Icon/Manifest setup notice:', err);
+      }
+    }
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredInstallEvent = e;
+      const box = document.getElementById('nativeInstallBox');
+      if (box) box.classList.remove('hidden');
+    });
+
+    async function triggerInstallPrompt() {
+      if (!deferredInstallEvent) return;
+      deferredInstallEvent.prompt();
+      await deferredInstallEvent.userChoice;
+      deferredInstallEvent = null;
+      closeAppInfoModal();
+    }
+
+    function openAppInfoModal() {
+      const modal = document.getElementById('appInfoModal');
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      }
+    }
+
+    function closeAppInfoModal() {
+      const modal = document.getElementById('appInfoModal');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+    }
+
+    window.onload = function() {
+      initIconsAndManifest();
+      applyScenario('150_2m');
+    };
+  </script>
+</body>
+</html>
